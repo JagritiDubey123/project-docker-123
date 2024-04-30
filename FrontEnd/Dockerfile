@@ -8,27 +8,33 @@
 # CMD ["npm", "start"]
 
 
+FROM node as builder
 
-FROM node
-
-# Create app directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Bundle app source
+# Copy frontend source code
 COPY . .
 
-# Copy SSL key and certificate files from the 'private' directory
-COPY ../private/server.key /etc/ssl/private/server.key
-COPY ../private/server.crt /etc/ssl/private/server.crt
+# Copy SSL key and certificate files
+COPY ../private/server.key /tmp/server.key
+COPY ../private/server.crt /tmp/server.crt
 
-# Expose port
+# Build your frontend application here
+
+# Final image
+FROM node
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app .
+
+# Copy SSL key and certificate files from temporary directory
+COPY --from=builder /tmp/server.key /etc/ssl/private/server.key
+COPY --from=builder /tmp/server.crt /etc/ssl/private/server.crt
+
 EXPOSE 5000
 
-# Command to run the application
 CMD ["node", "app.js"]
