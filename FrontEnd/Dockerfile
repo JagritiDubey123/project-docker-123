@@ -43,25 +43,48 @@
 
 
 
+# FROM node
+
+# # Create app directory
+# WORKDIR /usr/src/app
+
+# # Install app dependencies
+# COPY package.json ./
+# RUN npm install
+
+# # Bundle app source
+# COPY . .
+
+# # Copy SSL key and certificate files
+# COPY /home/jagritia998/project-docker-123/private/server.key /usr/src/app/server.key
+# COPY /home/jagritia998/project-docker-123/private/server.crt /usr/src/app/server.crt
+
+# # Expose port
+# EXPOSE 5000
+
+# # Run the application
+# CMD ["npm", "start"]
+
+
 FROM node
 
 # Create app directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json ./
+COPY package*.json ./
 RUN npm install
 
-# Bundle app source
-COPY . .
-
-# Copy SSL key and certificate files
+# Copy the server key file
 COPY /home/jagritia998/project-docker-123/private/server.key /usr/src/app/server.key
-COPY /home/jagritia998/project-docker-123/private/server.crt /usr/src/app/server.crt
+
+# Copy the rest of the application
+COPY . .
 
 # Expose port
 EXPOSE 5000
 
-# Run the application
+# Command to run the application
 CMD ["npm", "start"]
 
