@@ -1,11 +1,11 @@
-FROM node
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
-EXPOSE 5000
-CMD ["npm", "start"]
+# FROM node
+# RUN mkdir -p /usr/src/app
+# WORKDIR /usr/src/app
+# COPY package.json /usr/src/app
+# RUN npm install
+# COPY . /usr/src/app
+# EXPOSE 5000
+# CMD ["npm", "start"]
 
 
 # FROM node as builder
@@ -38,3 +38,30 @@ CMD ["npm", "start"]
 # EXPOSE 5000
 
 # CMD ["node", "app.js"]
+
+
+
+
+
+FROM node
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package.json ./
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Copy SSL key and certificate files
+COPY /home/jagritia998/project-docker-123/private/server.key /usr/src/app/server.key
+COPY /home/jagritia998/project-docker-123/private/server.crt /usr/src/app/server.crt
+
+# Expose port
+EXPOSE 5000
+
+# Run the application
+CMD ["npm", "start"]
+
