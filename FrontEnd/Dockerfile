@@ -23,9 +23,9 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# Copy SSL key and certificate files
-COPY server.key /etc/ssl/private/server.key
-COPY server.crt /etc/ssl/private/server.crt
+# Copy SSL key and certificate files from the 'private' directory
+COPY ../private/server.key /etc/ssl/private/server.key
+COPY ../private/server.crt /etc/ssl/private/server.crt
 
 # Expose port
 EXPOSE 5000
