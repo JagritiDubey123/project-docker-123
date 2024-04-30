@@ -44,7 +44,6 @@
 // });
 
 
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
@@ -61,16 +60,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/', routes);
 
-// Error handling middleware (example)
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Internal Server Error');
 });
 
 // HTTPS Setup
+const keyPath = '/etc/ssl/private/server.key';
+const certPath = '/etc/ssl/private/server_utf8.crt';
+
+// Validate SSL key and certificate paths
+if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
+  console.error('SSL key or certificate file not found.');
+  process.exit(1); // Exit the process if SSL files are missing
+}
+
 const options = {
-  key: fs.readFileSync('/etc/ssl/private/server.key'),
-  cert: fs.readFileSync('/etc/ssl/private/server_utf8.crt'),
+  key: fs.readFileSync(keyPath),
+  cert: fs.readFileSync(certPath),
   passphrase: 'jagriti@123'
 };
 
