@@ -113,10 +113,12 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Internal Server Error');
 });
+// key: fs.readFileSync('/etc/ssl/private/server.key'),
+//     cert: fs.readFileSync('/etc/ssl/private/server_utf8.crt'),
 
 // HTTPS Setup
-const keyPath = './private/server.key';
-const certPath = './private/server_utf8.crt';
+const keyPath = './etc/ssl/private/server.key';
+const certPath = './etc/ssl/private/server_utf8.crt';
 
 // Validate SSL key and certificate paths
 if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
