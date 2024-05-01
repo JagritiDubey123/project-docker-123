@@ -93,48 +93,98 @@
 // app.js
 
 
-const express = require('express');
+// const express = require('express');
+// const bodyParser = require('body-parser');
+// const routes = require('./routes');
+// const https = require('https');
+// const fs = require('fs');
+// const cors = require('cors');
+
+// const app = express();
+
+// // Middleware
+// app.use(cors());
+// app.use(bodyParser.urlencoded({ extended: false }));
+
+// // Routes
+// app.use('/', routes);
+
+// // Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Internal Server Error');
+// });
+
+// // HTTPS Setup
+// const keyPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.key';
+// const certPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.crt';
+
+// // Validate SSL key and certificate paths
+// if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
+//   console.error('SSL key or certificate file not found.');
+//   process.exit(1); // Exit the process if SSL files are missing
+// }
+
+// const options = {
+//   key: fs.readFileSync(keyPath),
+//   cert: fs.readFileSync(certPath),
+//   // If you're using a passphrase, include it here
+//   // passphrase: 'your_passphrase'
+// };
+
+// const PORT = 5000;
+
+// // Create HTTPS server
+// https.createServer(options, app).listen(PORT, () => {
+//   console.log(`Server is listening on port ${PORT} (HTTPS)`);
+// });
+
+
+
+
+
+const express = require('express')
 const bodyParser = require('body-parser');
-const routes = require('./routes');
+const routes = require('./routes')
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors');
+var cors = require('cors')
+
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-// Routes
-app.use('/', routes);
+app.use(cors())
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
-});
 
-// HTTPS Setup
-const keyPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.key';
-const certPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.crt';
 
-// Validate SSL key and certificate paths
-if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
-  console.error('SSL key or certificate file not found.');
-  process.exit(1); // Exit the process if SSL files are missing
-}
+
+
+
+app.set("view engine", 'ejs')
+
+
+app.set('views', 'views')
+
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+
+app.use('/', routes)
+
 
 const options = {
-  key: fs.readFileSync(keyPath),
-  cert: fs.readFileSync(certPath),
-  // If you're using a passphrase, include it here
-  // passphrase: 'your_passphrase'
+    key: fs.readFileSync('/etc/ssl/private/server.key'),
+    cert: fs.readFileSync('/etc/ssl/private/server.crt'),
+    passphrase: 'jagriti@123'
 };
 
-const PORT = 5000;
 
-// Create HTTPS server
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT} (HTTPS)`);
+const server = https.createServer(options,app);
+
+
+const PORT = 5000;
+server.listen(PORT, () => {
+    console.log('server is running on port ${PORT}');
 });
+
