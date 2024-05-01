@@ -1,11 +1,11 @@
-FROM node
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
-EXPOSE 5000
-CMD ["npm", "start"]
+# FROM node
+# RUN mkdir -p /usr/src/app
+# WORKDIR /usr/src/app
+# COPY package.json /usr/src/app
+# RUN npm install
+# COPY . /usr/src/app
+# EXPOSE 5000
+# CMD ["npm", "start"]
 
 
 # FROM node as builder
@@ -110,4 +110,33 @@ CMD ["npm", "start"]
 
 # # Command to run the application
 # CMD ["npm", "start"]
+
+
+
+
+FROM node
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install app dependencies
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Copy SSL key and certificate files
+COPY FrontEnd/ssl/server.key /etc/ssl/private/server.key
+COPY FrontEnd/ssl/server.crt /etc/ssl/private/server.crt
+
+# Expose port 5000 for HTTP and 443 for HTTPS
+EXPOSE 5000
+# EXPOSE 443
+
+# Command to start the application
+CMD ["npm", "start"]
+
 
