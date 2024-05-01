@@ -1,11 +1,11 @@
-# FROM node
-# RUN mkdir -p /usr/src/app
-# WORKDIR /usr/src/app
-# COPY package.json /usr/src/app
-# RUN npm install
-# COPY . /usr/src/app
-# EXPOSE 5000
-# CMD ["npm", "start"]
+FROM node
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app
+RUN npm install
+COPY . /usr/src/app
+EXPOSE 5000
+CMD ["npm", "start"]
 
 
 # FROM node as builder
@@ -89,25 +89,25 @@
 # CMD ["npm", "start"]
 
 
-FROM node
+# FROM node
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# # Create app directory
+# RUN mkdir -p /usr/src/app
+# WORKDIR /usr/src/app
 
-# Copy server key file
-COPY private/server.key /usr/src/app/server.key
+# # Copy server key file
+# COPY private/server.key /usr/src/app/server.key
 
-# Install app dependencies
-COPY package*.json ./
-RUN npm install
+# # Install app dependencies
+# COPY package*.json ./
+# RUN npm install
 
-# Copy the rest of the application
-COPY . .
+# # Copy the rest of the application
+# COPY . .
 
-# Expose port
-EXPOSE 5000
+# # Expose port
+# EXPOSE 5000
 
-# Command to run the application
-CMD ["npm", "start"]
+# # Command to run the application
+# CMD ["npm", "start"]
 
