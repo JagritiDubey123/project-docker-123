@@ -92,6 +92,7 @@
 
 // app.js
 
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
@@ -113,12 +114,10 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Internal Server Error');
 });
-// key: fs.readFileSync('/etc/ssl/private/server.key'),
-//     cert: fs.readFileSync('/etc/ssl/private/server_utf8.crt'),
 
 // HTTPS Setup
-const keyPath = '/home/jagritia998/project-docker-123/private/server.key';
-const certPath = '/home/jagritia998/project-docker-123/private/server_utf8.crt';
+const keyPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.key';
+const certPath = '/home/jagritia998/project-docker-123/FrontEnd/ssl/server.crt';
 
 // Validate SSL key and certificate paths
 if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
@@ -129,7 +128,8 @@ if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
 const options = {
   key: fs.readFileSync(keyPath),
   cert: fs.readFileSync(certPath),
-  passphrase: 'jagriti@123' // Passphrase if used while generating the key
+  // If you're using a passphrase, include it here
+  // passphrase: 'your_passphrase'
 };
 
 const PORT = 5000;
