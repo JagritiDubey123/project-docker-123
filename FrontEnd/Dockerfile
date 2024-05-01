@@ -145,8 +145,8 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 RUN npm install
 COPY . /usr/src/app
-COPY FrontEnd/ssl/server.key /etc/ssl/private/server.key
-COPY FrontEnd/ssl/server.crt /etc/ssl/private/server.crt
+# COPY FrontEnd/ssl/server.key /etc/ssl/private/server.key
+# COPY FrontEnd/ssl/server.crt /etc/ssl/private/server.crt
 EXPOSE 5000
 CMD ["npm", "start"]
 
